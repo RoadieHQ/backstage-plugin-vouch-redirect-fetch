@@ -13,20 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 export const AuthPopup = () => {
   useEffect(() => {
-    if (!window.location.search) {
-      window.opener.postMessage('closePopup', window.location.origin);
-    } else {
-      const currentUrl = new URL(window.location.href);
-      var redirectUrl = currentUrl.searchParams.get('url');
-      const currentUrlWithoutParams = `${window.location.origin}${window.location.pathname}`;
-      window.location.replace(
-        `${redirectUrl}?url=${currentUrlWithoutParams}&vouch-failcount=&X-Vouch-Token=&error=&rd=${currentUrlWithoutParams}`,
-      );
-    }
+    window.opener.postMessage('closePopup', window.location.origin);
   }, []);
-  return <div></div>;
+  return null;
 };

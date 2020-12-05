@@ -1,4 +1,4 @@
-var windowObjectReference: Window | null = null;
+let windowObjectReference: Window | null = null;
 
 export async function fetchWithVouchRedirect(
   initialUrl: string,
@@ -17,15 +17,15 @@ export async function fetchWithVouchRedirect(
 
   async function obtainAuthCookie(initialUrl: string, authUrl?: string) {
     const popupUrl = authUrl
-      ? `${window.location.origin}/authpopup?url=${authUrl}`
+      ? `${authUrl}?url=${window.location.origin}/authpopup&vouch-failcount=&X-Vouch-Token=&error=&rd=${window.location.origin}/authpopup`
       : initialUrl;
-    if (windowObjectReference == null || windowObjectReference.closed) {
+    if (windowObjectReference === null || windowObjectReference.closed) {
       windowObjectReference = window.open(
         popupUrl,
         'PromoteFirefoxWindowName',
         'resizable,scrollbars,status',
       );
-      if (windowObjectReference == null || windowObjectReference.closed) {
+      if (windowObjectReference === null || windowObjectReference.closed) {
         throw new Error(
           'Authentication popup is missing - it could be caused by the browser disallowing the site to open popups',
         );
@@ -39,16 +39,15 @@ export async function fetchWithVouchRedirect(
         if (event.origin !== window.location.origin) {
           return;
         }
-        console.log(event.data, event.origin, window.location.origin);
         if (event.data === 'closePopup') {
-          windowObjectReference.close();
+          windowObjectReference?.close();
         }
       },
       false,
     );
     await new Promise(res => {
-      var timer = setInterval(function () {
-        if (windowObjectReference.closed) {
+      const timer = setInterval(() => {
+        if (windowObjectReference?.closed) {
           clearInterval(timer);
           res();
         }
