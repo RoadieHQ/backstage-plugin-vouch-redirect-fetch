@@ -24,8 +24,8 @@ import { AuthPopup } from '@roadiehq/backstage-plugin-vouch-redirect';
 import { fetchWithVouchRedirect } from '@roadiehq/backstage-plugin-vouch-redirect';
 ...
     fetchWithVouchRedirect(
-      'https://backstage.myorganization.com/api/catalog/entities',
-      'https://backstage-vouch.myorganization.com/login',
+      'https://api.myorganization.com/api/catalog/entities',
+      'https://vouch.myorganization.com/login',
     );
 ```
 
