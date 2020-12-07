@@ -45,7 +45,7 @@ export async function fetchWithVouchRedirect(
       },
       false,
     );
-    await new Promise(res => {
+    await new Promise<void>(res => {
       const timer = setInterval(() => {
         if (windowObjectReference?.closed) {
           clearInterval(timer);
